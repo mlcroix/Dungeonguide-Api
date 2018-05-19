@@ -8,6 +8,10 @@ var notes = [
     {id: 4, playerid: 3, campaignid: 3, date: 11-12-1991, note: "fcbwsikbwsbcwsbcswbcikwsbhvjhvhjvbhc"},
 ]
 
+router.get('/', function(req, res, next) {
+    res.json(notes);
+  });
+
 router.get('/:campaignId', function(req, res) {
     var currNotes = notes.filter(function(note) {
         if(note.campaignid == req.params.campaignId){

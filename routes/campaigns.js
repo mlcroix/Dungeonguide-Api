@@ -8,6 +8,10 @@ var campaigns = [
     {id: 1, name: "maap", players: [1,3,2], dungeonMaster: 3},
 ]
 
+router.get('/', function(req, res, next) {
+    res.json(campaigns);
+  });
+
 router.get('/id/:id', function(req, res) {
     var currCampaign = campaigns.filter(function(campaign) {
         if(campaign.id == req.params.id){

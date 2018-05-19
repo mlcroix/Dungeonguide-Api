@@ -8,6 +8,10 @@ var histories = [
     {id:4, campaignId: 2, name: "pilot4", date: 14-12-1991, note: "blalvbldqjajbnbkbjbbckbc"},
 ]
 
+router.get('/', function(req, res, next) {
+    res.json(histories);
+  });
+
   router.get('/:campaignId', function(req, res) {
     var currHistory= histories.filter(function(history) {
         if(history.campaignId == req.params.campaignId){
