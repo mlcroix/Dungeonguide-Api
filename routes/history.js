@@ -1,30 +1,28 @@
 var express = require('express');
 var router = express.Router();
 
-var histories = [
-    {id:1, campaignId: 1, name: "pilot", date: 11-12-1991, note: "blalvbldqjabckbc"},
-    {id:2, campaignId: 1, name: "pilot2", date: 12-12-1991, note: "blalvbvhgvbc"},
-    {id:3, campaignId: 1, name: "pilot3", date: 13-12-1991, note: "bcccccccccccjabckbc"},
-    {id:4, campaignId: 2, name: "pilot4", date: 14-12-1991, note: "blalvbldqjajbnbkbjbbckbc"},
-]
+var MongoClient = require('mongodb').MongoClient;
+var ObjectId = require('mongodb').ObjectID;
+var db = require('../db');
 
 router.get('/', function(req, res, next) {
-    res.json(histories);
-  });
+    var database = db.get();
+    database.collection("Histories").find({}).toArray(function(err, result) {
+        if (err) throw err;
+        console.log(result);
+        res.json(result);
+      });
+});
 
-  router.get('/:campaignId', function(req, res) {
-    var currHistory= histories.filter(function(history) {
-        if(history.campaignId == req.params.campaignId){
-            return true;
-        }
+router.get('/:campaignId', function(req, res) {
+    var database = db.get();
+
+    var query = { campaignId: new ObjectId(req.params.campaignId) };
+    database.collection("Histories").find(query).toArray(function(err, result) {
+        if (err) throw err;
+        console.log(result);
+        res.json(result);
     });
-    if(currHistory.length > 0) {
-        res.json(currHistory)
-    }
-    else{
-        res.status(404);
-        res.json({message: "Not Found"});
-    }
-  });
+});
 
   module.exports = router;

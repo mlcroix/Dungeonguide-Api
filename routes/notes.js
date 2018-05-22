@@ -1,45 +1,37 @@
 var express = require('express');
 var router = express.Router();
 
-var notes = [
-    {id: 1, playerid: 1, campaignid: 1, date: 11-12-1991, note: "fcbwsikbwsbcwsbcswbcikwsbcikuswbhc"},
-    {id: 2, playerid: 1, campaignid: 2, date: 11-12-1991, note: "fcbwsikbwsbcuswbhc"},
-    {id: 3, playerid: 2, campaignid: 1, date: 11-12-1991, note: "fcbwsikbwsbcwsbcgcfgxctgfcgcgcgcwsbcikuswbhc"},
-    {id: 4, playerid: 3, campaignid: 3, date: 11-12-1991, note: "fcbwsikbwsbcwsbcswbcikwsbhvjhvhjvbhc"},
-]
+var MongoClient = require('mongodb').MongoClient;
+var ObjectId = require('mongodb').ObjectID;
+var db = require('../db');
 
 router.get('/', function(req, res, next) {
-    res.json(notes);
-  });
+    var database = db.get();
+    database.collection("Notes").find({}).toArray(function(err, result) {
+        if (err) throw err;
+        console.log(result);
+        res.json(result);
+    });
+});
 
 router.get('/:campaignId', function(req, res) {
-    var currNotes = notes.filter(function(note) {
-        if(note.campaignid == req.params.campaignId){
-            return true;
-        }
+    var database = db.get();
+    var query = { campaignId: new ObjectId(req.params.campaignId) };
+    database.collection("Notes").find(query).toArray(function(err, result) {
+        if (err) throw err;
+        console.log(result);
+        res.json(result);
     });
-    if(currNotes.length > 0) {
-        res.json(currNotes)
-    }
-    else{
-        res.status(404);
-        res.json({message: "Not Found"});
-    }
-  });
+});
 
   router.get('/:campaignId/:playerId', function(req, res) {
-    var currNotes = notes.filter(function(note) {
-        if(note.campaignid == req.params.campaignId && note.playerid == req.params.playerId){
-            return true;
-        }
+    var database = db.get();
+    var query = { campaignId: new ObjectId(req.params.campaignId), playerId : new ObjectId(req.params.playerId) };
+    database.collection("Notes").find(query).toArray(function(err, result) {
+        if (err) throw err;
+        console.log(result);
+        res.json(result);
     });
-    if(currNotes.length > 0) {
-        res.json(currNotes)
-    }
-    else{
-        res.status(404);
-        res.json({message: "Not Found"});
-    }
   });
 
 module.exports = router;
