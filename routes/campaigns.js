@@ -13,43 +13,28 @@ router.get('/', function(req, res, next) {
         res.json(result);
     });
 });
-/*
+
 router.get('/id/:id', function(req, res) {
-    var currCampaign = campaigns.filter(function(campaign) {
-        if(campaign.id == req.params.id){
-            return true;
-        }
-    });
-    if(currCampaign.length == 1) {
-        res.json(currCampaign[0])
-    }
-    else{
-        res.status(404);
-        res.json({message: "Not Found"});
-    }
-  });
-
-  router.get('/playerid/:id', function(req, res) {
-    var result = [];
-    campaigns.filter(function(campaign) {
-        var containsPlayer = campaign.players.forEach(function(player) {
-            if(player == req.params.id) {
-                console.log("meep");
-                result.push(campaign);
-                return true;
-            }
-        });
-    });
-
-    if(result.length > 0) {
-        res.json(result)
-    }
-    else {
-        res.status(404);
+    var database = db.get();
+    var query = { _id: new ObjectId(req.params.id) };
+    database.collection("Campaigns").find(query).toArray(function(err, result) {
+        if (err) throw err;
         console.log(result);
-        res.json({message: "Not Found"});
-    }
+        res.json(result);
+    });
+});
+
+router.get('/playerid/:id', function(req, res) {
+    var database = db.get();
+    var query = { players: new ObjectId(req.params.id) };
+    var result = [];
+
+    database.collection("Campaigns").find(query).toArray(function(err, result) {
+        if (err) throw err;
+        console.log(result);
+        res.json(result);
+    });
+
   });
-*/
 
 module.exports = router;

@@ -1,6 +1,10 @@
 var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://localhost:27017/";
-var dbname = "Dungeonguide";
+//var url = "mongodb://localhost:27017/";
+//var dbname = "Dungeonguide";
+
+var dbname = "heroku_gfzg6w69";
+
+var url = "mongodb://meep:moop@ds129770.mlab.com:29770/";
 var database = null;
 
 exports.connect = function() {
