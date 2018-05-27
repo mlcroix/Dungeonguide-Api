@@ -6,7 +6,7 @@ var db = require('../db');
 
 router.get('/', function(req, res, next) {
     var database = db.get();
-    database.collection("Players").find({}).toArray(function(err, result) {
+    database.collection("players").find({}).toArray(function(err, result) {
         if (err) throw err;
         console.log(result);
         res.json(result);
@@ -16,7 +16,7 @@ router.get('/', function(req, res, next) {
 router.get('/username/:username', function(req, res) {
     var database = db.get();
     var query = { username: req.params.username };
-    database.collection("Players").find(query).toArray(function(err, result) {
+    database.collection("players").find(query).toArray(function(err, result) {
         if (err) throw err;
         console.log(result);
         res.json(result);
@@ -28,7 +28,7 @@ router.post('/login', function(req, res) {
     var post = req.body;
     var username = post.username;
     var query = { username: username };
-    var currUser = database.collection("Players").find(query).toArray(function(err, result) {
+    var currUser = database.collection("players").find(query).toArray(function(err, result) {
     if (err) console.log("error: " + err);
 
     if(result[0].username == username && result[0].password == post.password){
