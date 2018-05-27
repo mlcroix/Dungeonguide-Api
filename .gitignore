@@ -18,6 +18,10 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+#module folder
+node_modules/
+
 # =========================
 # Operating System Files
 # =========================
+.env
