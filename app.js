@@ -9,8 +9,11 @@ var playersRouter = require('./routes/players');
 var campaignsRouter = require('./routes/campaigns');
 var historyRouter = require('./routes/history');
 var notesRouter = require('./routes/notes');
-
 var app = express();
+var MongoClient = require('mongodb').MongoClient;
+var db = require('./db');
+
+db.connect();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -1,64 +1,44 @@
 var express = require('express');
 var router = express.Router();
 
-var users = [
-  {id:1, name:"bob", username:"bobo", password:"jcbhkjcbak"},
-  {id:2, name:"hans", username:"hansje3", password:"jcbhkjcbak"},
-  {id:3, name:"bert", username:"bertje", password:"jcbhkjcbak"},
-  {id:4, name:"harry", username:"haurry", password:"jcbhkjcbak"},
-]
+var MongoClient = require('mongodb').MongoClient;
+var db = require('../db');
 
 router.get('/', function(req, res, next) {
-  res.json(users);
-});
-
-router.get('/id/:id', function(req, res) {
-  var currUser= users.filter(function(user) {
-      if(user.id == req.params.id){
-          return true;
-      }
-  });
-  if(currUser.length == 1) {
-      res.json(currUser[0])
-  }
-  else{
-      res.status(404);
-      res.json({message: "Not Found"});
-  }
+    var database = db.get();
+    database.collection("Players").find({}).toArray(function(err, result) {
+        if (err) throw err;
+        console.log(result);
+        res.json(result);
+      });
 });
 
 router.get('/username/:username', function(req, res) {
-  var currUser= users.filter(function(user) {
-      if(user.username == req.params.username){
-          return true;
-      }
-  });
-  if(currUser.length == 1) {
-      res.json(currUser[0])
-  }
-  else{
-      res.status(404);
-      res.json({message: "Not Found"});
-  }
+    var database = db.get();
+    var query = { username: req.params.username };
+    database.collection("Players").find(query).toArray(function(err, result) {
+        if (err) throw err;
+        console.log(result);
+        res.json(result);
+    });
 });
 
-  router.post('/login', function(req, res) {
-      var post = req.body;
-      var username = post.username;
-      console.log(username);
-      var currUser= users.filter(function(user) {
-          if(user.username == username){
-              console.log("found bobo");
-              return true;
-          }
-        });
-      if(currUser.length == 1 && currUser[0].password === post.password) {
-            res.json(currUser[0])
-      }
-      else{
-          res.status(404);
-          res.json({message: "Not Found"});
-      }
+router.post('/login', function(req, res) {
+    var database = db.get();
+    var post = req.body;
+    var username = post.username;
+    var query = { username: username };
+    var currUser = database.collection("Players").find(query).toArray(function(err, result) {
+    if (err) console.log("error: " + err);
+
+    if(result[0].username == username && result[0].password == post.password){
+        res.json(result[0])
+    }
+    else {
+        res.status(404);
+        res.json({message: "Not Found"});
+    }
     });
+});
 
 module.exports = router;
