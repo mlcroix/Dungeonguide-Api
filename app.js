@@ -7,7 +7,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var playersRouter = require('./routes/players');
 var campaignsRouter = require('./routes/campaigns');
-var historyRouter = require('./routes/history');
+var sessionsRouter = require('./routes/sessions');
 var notesRouter = require('./routes/notes');
 var app = express();
 var MongoClient = require('mongodb').MongoClient;
@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/players', playersRouter);
 app.use('/campaigns', campaignsRouter);
-app.use('/history', historyRouter);
+app.use('/sessions', sessionsRouter);
 app.use('/notes', notesRouter);
 
 // catch 404 and forward to error handler
