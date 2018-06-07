@@ -18,7 +18,6 @@ db.connect();
 
 // Add headers
 app.use(function (req, res, next) {
-  console.log("cors fix");
   // Website you wish to allow to connect
   res.setHeader('Access-Control-Allow-Origin', '*');
 
@@ -35,7 +34,6 @@ app.use(function (req, res, next) {
   // Pass to next layer of middleware
   next();
 });
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -57,12 +55,6 @@ app.use('/notes', notesRouter);
 app.use(function(req, res, next) {
   next(createError(404));
 });
-
-app.use(function() {
-  console.log("meep");
-})
-
-
 
 // error handler
 app.use(function(err, req, res, next) {
