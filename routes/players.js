@@ -61,4 +61,25 @@ router.post('/remove', function(req, res) {
     });
 });
 
+router.post('/update', function(req, res) {
+    var database = db.get();
+    var query = { "_id": ObjectId(req.body._id) };
+    var newValues = { $set: {name: req.body.name, username: req.body.username, password: req.body.password } };
+    database.collection("players").updateOne(query, newValues, function(err, result) {
+        var response;
+        if (err) {
+            response = {
+                message : err,
+                deleted : false
+            }
+        } else {
+            response = {
+                message : "succes",
+                deleted : true
+            }
+        }
+        res.json(response);
+    });
+});
+
 module.exports = router;
