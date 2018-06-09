@@ -63,12 +63,12 @@ router.post('/update', function(req, res) {
         if (err) {
             response = {
                 message : err,
-                deleted : false
+                updated : false
             }
         } else {
             response = {
                 message : "succes",
-                deleted : true
+                updated : true
             }
         }
         res.json(response);
