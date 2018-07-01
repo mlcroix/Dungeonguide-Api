@@ -28,17 +28,21 @@ router.post('/login', function(req, res) {
     var post = req.body;
     var username = post.username;
     var query = { username: username };
-    var currUser = database.collection("players").find(query).toArray(function(err, result) {
-    if (err) console.log("error: " + err);
-
-    if(result[0].username == username && result[0].password == post.password){
-        res.json(result[0])
+    try {
+        var currUser = database.collection("players").find(query).toArray(function(err, result) {
+            if (result.length != 0 && result[0].username == username && result[0].password == post.password){
+                delete result[0].password;
+                res.json(result[0])
+            }
+            else {
+                res.status(404);
+                res.json({message: "Not Found"});
+            }
+        });
     }
-    else {
-        res.status(404);
-        res.json({message: "Not Found"});
+    catch(err) {
+        console.log(err);
     }
-    });
 });
 
 router.post('/remove', function(req, res) {
