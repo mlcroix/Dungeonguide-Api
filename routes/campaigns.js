@@ -37,6 +37,22 @@ router.get('/playerid/:id', function(req, res) {
 
   });
 
+  router.get('/:playerid/create', function(req, res) {
+    var database = db.get();
+
+    var campaign = {
+        _id : new ObjectId(),
+        name : 'New campaign',
+        date  : new Date(),
+        dungeonMaster : ObjectId(req.params.playerid),
+        players : [ObjectId(req.params.playerid)],
+    }
+    database.collection("campaigns").insertOne(campaign, function(err, result) {
+        if (err) throw err;
+        res.json(campaign);
+    });
+});
+
   router.post('/remove', function(req, res) {
     var database = db.get();
     var query = { "_id": ObjectId(req.body._id) };

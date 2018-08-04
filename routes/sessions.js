@@ -34,7 +34,6 @@ router.get('/:campaignId/create', function(req, res) {
         text : "edit me!"
     }
 
-    var query = { campaignId: new ObjectId(req.params.campaignId) };
     database.collection("sessions").insertOne(session, function(err, result) {
         if (err) throw err;
         res.json(session);
