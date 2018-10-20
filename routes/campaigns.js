@@ -58,23 +58,31 @@ router.get('/playerid/:id', function(req, res) {
     var response;
     database.collection("campaigns").find(query).toArray(function(err, result) {
         if (err) throw err;
-        if (result[0].dungeonMaster == req.body.userId) {
-            database.collection("campaigns").remove(query, function(err, result) {
-                if (err) {
-                    response = {
-                        message : err,
-                        deleted : false
+        if(result != null && result.length > 0) {
+            if (result.lenght > 0 && result[0].dungeonMaster == req.body.userId) {
+                database.collection("campaigns").remove(query, function(err, result) {
+                    if (err) {
+                        response = {
+                            message : err,
+                            deleted : false
+                        }
+                    } else {
+                        response = {
+                            message : "succes",
+                            deleted : true
+                        }
                     }
-                } else {
-                    response = {
-                        message : "succes",
-                        deleted : true
-                    }
+                });
+            } else {
+                response = {
+                    message : "ERROR: NOT DM!",
+                    deleted : false
                 }
-            });
-        } else {
+            }
+        }
+        else {
             response = {
-                message : "ERROR: NOT DM!",
+                message : "no campaign found",
                 deleted : false
             }
         }
