@@ -57,11 +57,13 @@ router.get('/playerid/:id', function(req, res) {
     var query = { "_id": ObjectId(req.body.campaignId) };
     var response;
     database.collection("campaigns").find(query).toArray(function(err, result) {
+        console.log("result find");
         console.log(result);
 
         if(result != null && result.length > 0) {
             if (result[0].dungeonMaster == req.body.userId) {
                 database.collection("campaigns").remove(query, function(err, result) {
+                    console.log("result remove");
                     console.log(result);
                     if (err) {
                         response = {
