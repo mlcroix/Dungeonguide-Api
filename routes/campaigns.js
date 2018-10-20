@@ -45,7 +45,7 @@ router.get('/playerid/:id', function(req, res) {
         name : 'New campaign',
         date  : new Date(),
         dungeonMaster : ObjectId(req.params.playerid),
-        players : [ObjectId(req.params.playerid)],
+        players : [],
     }
     database.collection("campaigns").insertOne(campaign, function(err, result) {
         if (err) throw err;
@@ -55,18 +55,28 @@ router.get('/playerid/:id', function(req, res) {
 
   router.post('/remove', function(req, res) {
     var database = db.get();
-    var query = { "_id": ObjectId(req.body._id) };
-    database.collection("campaigns").remove(query, function(err, result) {
-        var response;
-        if (err) {
-            response = {
-                message : err,
-                deleted : false
-            }
+    var query = { "_id": ObjectId(req.body.campaignId) };
+    var response;
+    database.collection("campaigns").find(query).toArray(function(err, result) {
+        if (err) throw err;
+        if (result[0].dungeonMaster == req.body.userId) {
+            database.collection("campaigns").remove(query, function(err, result) {
+                if (err) {
+                    response = {
+                        message : err,
+                        deleted : false
+                    }
+                } else {
+                    response = {
+                        message : "succes",
+                        deleted : true
+                    }
+                }
+            });
         } else {
             response = {
-                message : "succes",
-                deleted : true
+                message : "ERROR: NOT DM!",
+                deleted : false
             }
         }
         res.json(response);
