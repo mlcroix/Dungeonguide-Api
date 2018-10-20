@@ -26,12 +26,11 @@ router.get('/id/:id', function(req, res) {
 
 router.get('/playerid/:id', function(req, res) {
     var database = db.get();
-    var query = { players: new ObjectId(req.params.id) };
+    var query = { $or: [{players: new ObjectId(req.params.id)}, {dungeonMaster: new ObjectId(req.params.id)}] };
     var result = [];
 
     database.collection("campaigns").find(query).toArray(function(err, result) {
         if (err) throw err;
-        console.log(result);
         res.json(result);
     });
 
