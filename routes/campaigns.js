@@ -59,7 +59,7 @@ router.get('/playerid/:id', function(req, res) {
     database.collection("campaigns").find(query).toArray(function(err, result) {
         if (err) throw err;
         if(result != null && result.length > 0) {
-            if (result.lenght > 0 && result[0].dungeonMaster == req.body.userId) {
+            if (result[0].dungeonMaster == req.body.userId) {
                 database.collection("campaigns").remove(query, function(err, result) {
                     if (err) {
                         response = {
