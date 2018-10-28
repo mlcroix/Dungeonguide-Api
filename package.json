@@ -2,8 +2,9 @@
   "name": "Dungeonguide-api",
   "version": "0.0.1",
   "description": "api for dungeonguide angular web app",
+  "private": true,
   "scripts": {
-    "start": "node app.js"
+    "start": "node ./app.js"
   },
   "dependencies": {
     "bson": "^3.0.2",
