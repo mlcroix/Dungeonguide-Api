@@ -6,6 +6,7 @@
     "start": "node app.js"
   },
   "dependencies": {
+    "bson": "^3.0.2",
     "dotenv": "^6.1.0",
     "express": "^4.16.4",
     "mongodb": "^3.1.8",
