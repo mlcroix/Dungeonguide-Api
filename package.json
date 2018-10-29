@@ -4,7 +4,6 @@
   "description": "api for dungeonguide angular web app",
   "private": true,
   "scripts": {
-    "postinstall": "npm run build",
     "start": "node ./app.js"
   },
   "dependencies": {
